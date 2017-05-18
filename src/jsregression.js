@@ -53,6 +53,8 @@ var jsregression = jsregression || {};
             for(var d = 0; d < this.dim; ++d) {
                 this.theta[d] = this.theta[d] - this.alpha * Vx[d];
             }
+            
+            //console.log('cost: '  + this.cost(X, Y, this.theta));
         }
         
         return this.theta;
@@ -74,7 +76,7 @@ var jsregression = jsregression || {};
                     predicted += x_i[d2] * theta[d2]
                 }
                 
-                g = (y_i - predicted) * x_i[d];  
+                g = - (y_i - predicted) * x_i[d];  
             }
             
             g = (g + this.lambda * theta[d]) / N;
@@ -83,6 +85,26 @@ var jsregression = jsregression || {};
         }
         
         return Vtheta;
+    };
+    
+    LinearRegression.prototype.cost = function(X, Y, theta) {
+      
+        var N = X.length;
+        var cost = 0;
+        for(var i = 0; i < N; ++i){
+            var predicted = 0;
+            var x_i = X[i];
+            for(var d = 0; d < this.dim; ++d){
+                predicted += x_i[d] * theta[d];
+            }
+            cost += (predicted - Y[i]) * (predicted - Y[i]);
+            
+            for(var d = 0; d < this.dim; ++d) {
+                cost += this.lambda * theta[d] * theta[d];
+            }
+        }
+        
+        return cost / (2.0 * N);
     };
     
     LinearRegression.prototype.transform = function(x) {
