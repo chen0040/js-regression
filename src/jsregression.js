@@ -109,10 +109,10 @@ var jsregression = jsregression || {};
             var x_i = X[i];
             var predicted = this.h(x_i, theta);
             cost += (predicted - Y[i]) * (predicted - Y[i]);
-            
-            for(var d = 0; d < this.dim; ++d) {
-                cost += this.lambda * theta[d] * theta[d];
-            }
+        }
+        
+        for(var d = 0; d < this.dim; ++d) {
+            cost += this.lambda * theta[d] * theta[d];
         }
         
         return cost / (2.0 * N);
@@ -229,6 +229,10 @@ var jsregression = jsregression || {};
             var y_i = Y[i];
             var x_i = X[i];
             sum += - (y_i * Math.log(this.h(x_i, theta)) + (1-y_i) * Math.log(1 - this.h(x_i, theta))) / N;
+        }
+        
+        for(var d = 0; d < this.dim; ++d) {
+            sum += (this.lambda * theta[d] * theta[d]) / (2.0 * N);
         }
         return sum;
     };
