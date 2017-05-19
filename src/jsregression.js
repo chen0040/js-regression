@@ -22,10 +22,7 @@ var jsregression = jsregression || {};
     LinearRegression.prototype.fit = function(data) {
         var N = data.length;
         this.dim = data[0].length;
-        
-       
-        
-        
+
         
         var X = [];
         var Y = [];
@@ -53,8 +50,6 @@ var jsregression = jsregression || {};
             for(var d = 0; d < this.dim; ++d) {
                 this.theta[d] = this.theta[d] - this.alpha * Vx[d];
             }
-            
-            //console.log('cost: '  + this.cost(X, Y, this.theta));
         }
         
         return {
@@ -129,15 +124,7 @@ var jsregression = jsregression || {};
         }
         
         // x is a row vector
-        
-        if(x.length != this.dim - 1) {
-            console.error("X should have length equal to " + (this.dim - 1));
-        }
-        var predicted = this.theta[0];
-        for(var d = 1; d < this.dim; ++d) {
-            predicted += (this.theta[d] * x[d-1]);
-        }  
-        return predicted;
+        return this.h(x, this.theta);
     };
 
     jsr.LinearRegression = LinearRegression;
@@ -205,21 +192,36 @@ var jsregression = jsregression || {};
         for(var d = 0; d < this.dim; ++d) {
             var sum = 0.0;
             for(var i = 0; i < N; ++i){
+                var x_i = X[i];
                 var predicted = this.h(x_i, theta);
                 sum += ((predicted - Y[i]) * x_i[d] + this.lambda * theta[d]) / N;
             }    
             Vx.push(sum);
         }
         
+        return Vx;
+        
     }
     
     LogisticRegression.prototype.h = function(x_i, theta) {
         var gx = 0.0;
-        var x_i = X[i];
         for(var d = 0; d < this.dim; ++d){
             gx += this.theta[d] * x_i[d];
         }
         return 1.0 / (1.0 + Math.exp(-gx));
+    }
+    
+    LogisticRegression.prototype.transform = function(x) {
+        if(x[0].length){ // x is a matrix            
+            var predicted_array = [];
+            for(var i=0; i < x.length; ++i){
+                var predicted = this.transform(x[i]);
+                predicted_array.push(predicted);
+            }
+            return predicted_array;
+        }
+        
+        return this.h(x, this.theta);
     }
     
     LogisticRegression.prototype.cost = function(X, Y, theta) {

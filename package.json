@@ -1,6 +1,6 @@
 {
   "name": "js-regression",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Package implements linear regression and logistic regression",
   "author": "Xianshun Chen",
   "contributors": [
@@ -24,22 +24,20 @@
     "url": "git+https://github.com/chen0040/js-regression.git"
   },
   "keywords": [
-    "linear regression", 
-    "logistic regression", 
-    "polynomial regression", 
+    "linear regression",
+    "logistic regression",
+    "polynomial regression",
     "multiple linear regression",
-    "classification", 
-    "binary classification", 
-    "multi-class classification", 
-    "prediction", 
-    "linear models", 
-    "least squares", 
+    "classification",
+    "binary classification",
+    "multi-class classification",
+    "prediction",
+    "linear models",
+    "least squares",
     "gradient descent",
     "regression"
   ],
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "chai": "^3.5.0",
     "coveralls": "^2.13.1",
@@ -48,6 +46,7 @@
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
     "istanbul": "^0.4.5",
+    "js-datasets-iris": "^1.0.1",
     "mocha": "^3.4.1"
   },
   "bugs": {
