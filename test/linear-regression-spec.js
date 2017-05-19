@@ -14,16 +14,20 @@ describe("Test linear regression", function() {
           iterations: 100,
           lambda: 0.0
       });
-      regression.fit(data);
+      var result = regression.fit(data);
+      
+      it("has a final cost of < 1.0", function(){
+         expect(result.cost).to.below(1.0); 
+      });
       
       it("its intercept should be about 2.0", function() {
-            expect(regression.theta[0]).to.below(4.0); 
-            expect(regression.theta[0]).to.above(0.0); 
+          expect(regression.theta[0]).to.below(4.0); 
+          expect(regression.theta[0]).to.above(0.0); 
       });
       
       it("its intercept should be about 5.0", function() {
-            expect(regression.theta[1]).to.below(5.1); 
-            expect(regression.theta[1]).to.above(4.9); 
+          expect(regression.theta[1]).to.below(5.1); 
+          expect(regression.theta[1]).to.above(4.9); 
       });
   });
 

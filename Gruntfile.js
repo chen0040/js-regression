@@ -11,8 +11,8 @@ module.exports = function (grunt) {
         preserveComments: 'some',
       },
       build: {
-        src: 'src/jsstats.js',
-        dest: 'build/jsstats.min.js',
+        src: 'src/jsregression.js',
+        dest: 'build/jsregression.min.js',
       },
     },
     mochaTest: {
