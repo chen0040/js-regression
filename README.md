@@ -1,7 +1,15 @@
 # js-regression
 Package provides javascript implementation of linear regression and logistic regression
 
+# Install
+
+```bash
+npm install js-regression
+```
+
 # Usage
+
+### Linear Regression
 
 The sample code below illustrates how to run the multiple linear regression (polynomial in this case):
 
@@ -39,10 +47,13 @@ for(var x = 1.0; x < 100.0; x += 1.0) {
 }
 ```
 
+### Logistic Regression
+
 The sample code below illustrates how to run the logistic regression on the iris datsets to classify whether a data row belong to species Iris-virginica:
 
 ```javascript
 var jsregression = require('js-regression');
+var iris = require('js-datasets-iris');
 
 // === Create the linear regression === //
 var logistic = new jsregression.LogisticRegression({
@@ -87,4 +98,13 @@ for(var i=0; i < testingData.length; ++i){
 
 ```
 
+### Usage In HTML
+
+Include the "node_modules/js-regression/build/jsregression.min.js" (or "node_modules/js-regression/src/jsregression.js") in your HTML \<script\> tag
+
+The code in the script tag looks sth like this:
+
+```javascript
+var logistic = new jsregression.LogisticRegression();
+```
 
