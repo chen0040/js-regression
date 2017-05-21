@@ -98,6 +98,47 @@ for(var i=0; i < testingData.length; ++i){
 
 ```
 
+### Multi-Class Classification using One-vs-All Logistic Regression
+
+The sample code below illustrates how to run the multi-class classifier on the iris datasets to classifiy the species of each data row:
+
+```javascript
+var classifier = new jsregression.MultiClassLogistic({
+   alpha: 0.001,
+   iterations: 1000,
+   lambda: 0.0
+});
+
+iris.shuffle();
+
+var trainingDataSize = Math.round(iris.rowCount * 0.9);
+var trainingData = [];
+var testingData = [];
+for(var i=0; i < iris.rowCount ; ++i) {
+   var row = [];
+   row.push(iris.data[i][0]); // sepalLength;
+   row.push(iris.data[i][1]); // sepalWidth;
+   row.push(iris.data[i][2]); // petalLength;
+   row.push(iris.data[i][3]); // petalWidth;
+   row.push(iris.data[i][4]); // output is species
+   if(i < trainingDataSize){
+        trainingData.push(row);
+   } else {
+       testingData.push(row);
+   }
+}
+
+
+var result = classifier.fit(trainingData);
+
+console.log(result);
+
+for(var i=0; i < testingData.length; ++i){
+   var predicted = classifier.transform(testingData[i]);
+   console.log("actual: " + testingData[i][4] + " predicted: " + predicted);
+}
+```
+
 ### Usage In HTML
 
 Include the "node_modules/js-regression/build/jsregression.min.js" (or "node_modules/js-regression/src/jsregression.js") in your HTML \<script\> tag

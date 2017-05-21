@@ -1,6 +1,6 @@
 {
   "name": "js-regression",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Package implements linear regression and logistic regression",
   "author": "Xianshun Chen",
   "contributors": [

@@ -124,7 +124,12 @@ var jsregression = jsregression || {};
         }
         
         // x is a row vector
-        return this.h(x, this.theta);
+        var x_i = [];
+        x_i.push(1.0);
+        for(var j=0; j < x.length; ++j){
+            x_i.push(x[j]);
+        }
+        return this.h(x_i, this.theta);
     };
 
     jsr.LinearRegression = LinearRegression;
@@ -206,7 +211,7 @@ var jsregression = jsregression || {};
     LogisticRegression.prototype.h = function(x_i, theta) {
         var gx = 0.0;
         for(var d = 0; d < this.dim; ++d){
-            gx += this.theta[d] * x_i[d];
+            gx += theta[d] * x_i[d];
         }
         return 1.0 / (1.0 + Math.exp(-gx));
     }
@@ -221,7 +226,12 @@ var jsregression = jsregression || {};
             return predicted_array;
         }
         
-        return this.h(x, this.theta);
+        var x_i = [];
+        x_i.push(1.0);
+        for(var j=0; j < x.length; ++j){
+            x_i.push(x[j]);
+        }
+        return this.h(x_i, this.theta);
     }
     
     LogisticRegression.prototype.cost = function(X, Y, theta) {
@@ -240,6 +250,98 @@ var jsregression = jsregression || {};
     };
     
     jsr.LogisticRegression = LogisticRegression;
+    
+    var MultiClassLogistic = function(config){
+        var config = config || {};
+        if(!config.alpha){
+            config.alpha = 0.001;
+        }
+        if(!config.iterations) {
+            config.iterations = 100;
+        }
+        if(!config.lambda) {
+            config.lambda = 0;
+        }
+        this.alpha = config.alpha;
+        this.lambda = config.lambda;
+        this.iterations = config.iterations;
+    };
+    
+    MultiClassLogistic.prototype.fit = function(data, classes) {
+        this.dim = data[0].length;
+        var N = data.length;
+        
+        if(!classes){
+            classes = [];
+            for(var i=0; i < N; ++i){
+                var found = false;
+                var label = data[i][this.dim-1];
+                for(var j=0; j < classes.length; ++j){
+                    if(label == classes[j]){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    classes.push(label);
+                }
+            }
+        }
+        
+        this.classes = classes;
+        
+        this.logistics = {};
+        var result = {};
+        for(var k = 0; k < this.classes.length; ++k){
+            var c = this.classes[k];
+            this.logistics[c] = new jsr.LogisticRegression({
+                alpha: this.alpha,
+                lambda: this.lambda,
+                iterations: this.iterations
+            });
+            var data_c = [];
+            for(var i=0; i < N; ++i){
+                var row = [];
+                for(var j=0; j < this.dim-1; ++j){
+                    row.push(data[i][j]);
+                }
+                row.push(data[i][this.dim-1] == c ? 1 : 0);
+                data_c.push(row);
+            }
+            result[c] = this.logistics[c].fit(data_c);
+        }
+        return result;
+    };
+    
+    MultiClassLogistic.prototype.transform = function(x) {
+        if(x[0].length){ // x is a matrix            
+            var predicted_array = [];
+            for(var i=0; i < x.length; ++i){
+                var predicted = this.transform(x[i]);
+                predicted_array.push(predicted);
+            }
+            return predicted_array;
+        }
+        
+        
+        
+        var max_prob = 0.0;
+        var best_c = '';
+        for(var k = 0; k < this.classes.length; ++k) {
+            var c = this.classes[k];
+            var prob_c = this.logistics[c].transform(x);
+            if(max_prob < prob_c){
+                max_prob = prob_c;
+                best_c = c;
+            }
+        }
+        
+        return best_c;
+    }
+    
+    
+    
+    jsr.MultiClassLogistic = MultiClassLogistic;
 
 })(jsregression);
 
