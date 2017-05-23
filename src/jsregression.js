@@ -1,16 +1,17 @@
 var jsregression = jsregression || {};
 
-(function(jsr){
-	var LinearRegression = function(config) {
+(function (jsr) {
+    'use strict';
+	var LinearRegression = function (config) {
         config = config || {};
         
-        if(!config.iterations){
+        if (!config.iterations) {
             config.iterations = 100;
         }
-        if(!config.alpha){
+        if (!config.alpha) {
             config.alpha = 0.0001;
         }
-        if(!config.lambda){
+        if (!config.lambda) {
             config.lambda = 0.0;
         }
         
@@ -19,19 +20,17 @@ var jsregression = jsregression || {};
         this.lambda = config.lambda;
     };
     
-    LinearRegression.prototype.fit = function(data) {
-        var N = data.length;
+    LinearRegression.prototype.fit = function (data) {
+        var N = data.length, X = [], Y = [];
         this.dim = data[0].length;
 
-        
-        var X = [];
-        var Y = [];
-        for(var i=0; i < N; ++i){
+    
+        for (var i=0; i < N; ++i) {
             var row = data[i];
             var x_i = [];
             var y_i = row[row.length-1];
             x_i.push(1.0);
-            for(var j=0; j < row.length-1; ++j){
+            for(var j=0; j < row.length-1; ++j) {
                 x_i.push(row[j]);
             }
             Y.push(y_i);
@@ -40,11 +39,11 @@ var jsregression = jsregression || {};
         
         this.theta = [];
         
-        for(var d = 0; d < this.dim; ++d) {
+        for (var d = 0; d < this.dim; ++d) {
             this.theta.push(0.0);
         }
         
-        for(var k = 0; k < this.iterations; ++k){
+        for (var k = 0; k < this.iterations; ++k) {
             var Vx = this.grad(X, Y, this.theta);
             
             for(var d = 0; d < this.dim; ++d) {
@@ -180,8 +179,11 @@ var jsregression = jsregression || {};
             }
         }
         
+        this.threshold = this.computeThreshold(X, Y);
+        
         return {
             theta: this.theta,
+            threshold: this.threshold,
             cost: this.cost(X, Y, this.theta),
             config: {
                 alpha: this.alpha,
@@ -190,6 +192,19 @@ var jsregression = jsregression || {};
             }
         }
     };
+    
+    LogisticRegression.prototype.computeThreshold = function(X, Y){
+        var threshold=1.0, N = X.length;
+        
+        for (var i = 0; i < N; ++i) {
+            var prob = this.transform(X[i]);
+            if(Y[i] == 1 && threshold > prob){
+                threshold = prob;
+            }
+        }
+        
+        return threshold;
+    }
     
     LogisticRegression.prototype.grad = function(X, Y, theta) {
         var N = X.length;

@@ -93,7 +93,9 @@ console.log(model);
 // === Testing the trained logistic regression === //
 for(var i=0; i < testingData.length; ++i){
    var probabilityOfSpeciesBeingIrisVirginica = logistic.transform(testingData[i]);
+   var predicted = logistic.transform(testingData[i]) >= logistic.threshold ? 1 : 0;
    console.log("actual: " + testingData[i][4] + " probability of being Iris-virginica: " + probabilityOfSpeciesBeingIrisVirginica);
+   console.log("actual: " + testingData[i][4] + " predicted: " + predicted);
 }
 
 ```
