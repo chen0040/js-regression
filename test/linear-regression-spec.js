@@ -55,6 +55,11 @@ describe("Test linear regression", function() {
           expect(intercept).to.above(0.0); 
       });
       
+      it("can transform multiple rows of data", function(){
+         var Y_predicted = regression.transform(data); 
+          expect(Y_predicted.length).to.equal(data.length);
+      });
+      
   });
 });
 

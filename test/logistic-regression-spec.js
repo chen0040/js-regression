@@ -44,5 +44,10 @@ describe("Test logistic regression", function(){
        it('should have a cost of lower than 0.5', function(){
           expect(result.cost).to.below(0.6); 
        });
+        
+        it("can transform multiple rows of data", function(){
+             var Y_predicted = logistic.transform(testingData); 
+              expect(Y_predicted.length).to.equal(testingData.length);
+        });
     });
 });

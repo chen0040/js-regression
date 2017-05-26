@@ -45,5 +45,10 @@ describe("Test multi-class classification using logistic regression", function()
            }
           
        });
+        
+        it("can transform multiple rows of data", function(){
+            var Y_predicted = classifier.transform(testingData); 
+            expect(Y_predicted.length).to.equal(testingData.length);
+        });
     });
 });
