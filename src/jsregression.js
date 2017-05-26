@@ -6,18 +6,22 @@ var jsregression = jsregression || {};
         config = config || {};
         
         if (!config.iterations) {
-            config.iterations = 100;
+            config.iterations = 1000;
         }
         if (!config.alpha) {
-            config.alpha = 0.0001;
+            config.alpha = 0.001;
         }
         if (!config.lambda) {
             config.lambda = 0.0;
+        }
+        if(!config.trace) {
+            config.trace = false;
         }
         
         this.iterations = config.iterations;
         this.alpha = config.alpha;
         this.lambda = config.lambda;
+        this.trace = config.trace;
     };
     
     LinearRegression.prototype.fit = function (data) {
@@ -48,6 +52,10 @@ var jsregression = jsregression || {};
             
             for(var d = 0; d < this.dim; ++d) {
                 this.theta[d] = this.theta[d] - this.alpha * Vx[d];
+            }
+            
+            if(this.trace) {
+                console.log('cost at iteration ' + k + ': ' + this.cost(X, Y, this.theta));
             }
         }
         
