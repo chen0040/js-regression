@@ -368,6 +368,7 @@ var jsregression = jsregression || {};
 
 })(jsregression);
 
+var module = module || {};
 if(module) {
 	module.exports = jsregression;
 }
