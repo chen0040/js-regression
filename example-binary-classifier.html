@@ -1,0 +1,95 @@
+<html>
+    <head>
+        
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.js" type="text/javascript"></script>
+        
+        <script src="https://rawgit.com/chen0040/js-regression/master/build/jsregression.min.js" type="application/javascript"></script>
+        <script src="https://rawgit.com/chen0040/js-datasets-iris/master/build/jsiris.min.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div class="container" ng-app="demo" ng-controller="demoController">
+            <div class="panel panel-default">
+              
+              <div class="panel-heading">Binary Classification using Logistic Regression</div>
+              <div class="panel-body">
+                <table class="table table-hover table-stripped">
+                    <thead>
+                        <tr>
+                            <th>Sepal Length</th>
+                            <th>Sepal Width</th>
+                            <th>Petal Length</th>
+                            <th>Petal Width</th>
+                            <th>Actual Value</th>
+                            <th>Logistic Predicted Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat='row in trainingData track by $index'>
+                            <td>{{row[0]}}</td>
+                            <td>{{row[1]}}</td>
+                            <td>{{row[2]}}</td>
+                            <td>{{row[3]}}</td>
+                            <td>{{row[4]}}</td>
+                            <td>{{predict(row)}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            var app = angular.module('demo', []);
+            var controller = function($scope){
+                var classifier = new jsregression.LogisticRegression({
+                   alpha: 0.001,
+                   iterations: 1000,
+                   lambda: 0.0
+               });
+
+               jsIris.shuffle();
+
+               var trainingDataSize = Math.round(jsIris.rowCount * 0.9);
+               var trainingData = [];
+               var testingData = [];
+               for(var i=0; i < jsIris.rowCount ; ++i) {
+                   var row = [];
+                   row.push(jsIris.data[i][0]); // sepalLength;
+                   row.push(jsIris.data[i][1]); // sepalWidth;
+                   row.push(jsIris.data[i][2]); // petalLength;
+                   row.push(jsIris.data[i][3]); // petalWidth;
+                   row.push(jsIris.data[i][4] == "Iris-virginica" ? 1.0 : 0.0); // output which is 1 if species is Iris-virginica; 0 otherwise
+                   if(i < trainingDataSize){
+                        trainingData.push(row);
+                   } else {
+                       testingData.push(row);
+                   }
+               }
+                
+               $scope.trainingData = trainingData;
+
+
+               var result = classifier.fit(trainingData);
+
+               console.log(result);
+
+               for(var i=0; i < testingData.length; ++i){
+                   var p = classifier.transform(testingData[i]);
+                   var predicted = p >= classifier.threshold ? 1 : 0;
+                   console.log("linear classifier binary classifier testing: actual: " + testingData[i][4] + " predicted: " + predicted);
+               }
+            
+               $scope.classifier = classifier;
+               $scope.predict = function(row) {
+                    return classifier.transform(row) >= classifier.threshold ? 1 : 0;
+               };
+            };
+            app.controller('demoController', ['$scope', controller]);
+        </script>
+    </body>
+</html>
