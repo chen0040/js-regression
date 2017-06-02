@@ -147,9 +147,7 @@ for(var i=0; i < testingData.length; ++i){
 
 Include the "node_modules/js-regression/build/jsregression.min.js" (or "node_modules/js-regression/src/jsregression.js") in your HTML \<script\> tag
 
-The code in the script tag looks sth like this:
+The codes in the following html files illustrates how to use them in html pages:
 
-```javascript
-var logistic = new jsregression.LogisticRegression();
-```
-
+* [example-binary-classifier.html](https://rawgit.com/chen0040/js-regression/master/example-binary-classifier.html)
+* [example-multi-class-classifier.html](https://rawgit.com/chen0040/js-regression/master/example-multi-class-classifier.html)
