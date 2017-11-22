@@ -98,7 +98,7 @@ var jsregression = jsregression || {};
     LinearRegression.prototype.h = function(x_i, theta) {
         var predicted = 0.0;
         for(var d = 0; d < this.dim; ++d) {
-            predicted += x_i[d] * theta[d]
+            predicted += x_i[d] * theta[d];
         }
         return predicted;
     }
