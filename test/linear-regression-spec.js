@@ -10,8 +10,8 @@ describe("Test linear regression", function() {
       }
       
       var regression = new jsregression.LinearRegression({
-          alpha: 0.001,
-          iterations: 300,
+          alpha: 0.0001,
+          iterations: 3000,
           lambda: 0.0,
           trace: true
       });
