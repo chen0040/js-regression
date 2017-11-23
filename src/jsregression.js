@@ -84,7 +84,7 @@ var jsregression = jsregression || {};
                 
                 var predicted = this.h(x_i, theta);
                 
-                g = - (y_i - predicted) * x_i[d];  
+                g += (predicted - y_i) * x_i[d];  
             }
             
             g = (g + this.lambda * theta[d]) / N;
