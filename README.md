@@ -151,3 +151,7 @@ The codes in the following html files illustrates how to use them in html pages:
 
 * [example-binary-classifier.html](https://rawgit.com/chen0040/js-regression/master/example-binary-classifier.html)
 * [example-multi-class-classifier.html](https://rawgit.com/chen0040/js-regression/master/example-multi-class-classifier.html)
+* [example-regression.html](https://rawgit.com/chen0040/js-regression/master/example-regression.html)
+* [example-regression-2.html](https://rawgit.com/chen0040/js-regression/master/example-regression-2.html)
+* [example-regression-3.html](https://rawgit.com/chen0040/js-regression/master/example-regression-3.html)
+
