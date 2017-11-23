@@ -2,8 +2,8 @@
 <head>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js" type="text/javascript"></script>
 		
-		<!--<script src="https://rawgit.com/chen0040/js-regression/master/build/jsregression.min.js" type="application/javascript"></script>-->
-		<script src="./src/jsregression.js" type="application/javascript"></script>
+		<script src="https://rawgit.com/chen0040/js-regression/master/build/jsregression.min.js" type="application/javascript"></script>
+		<!--<script src="./src/jsregression.js" type="application/javascript"></script>-->
 </head>
 <body>
 
@@ -14,7 +14,7 @@
 		// === training data generated from y = 2.0 + 5.0 * x + 2.0 * x^2 === //
 		var data = [];
 		for(var x = 1.0; x < 100.0; x += 1.0) {
-		  var y = 3006.0 - 5.0 * x - 2.0 * x * x + (Math.random()-0.5) * x * 100;
+		  var y = 1300.0 - 25.0 * x - 2.0 * x * x + (Math.random()-0.5) * 1000;
 		  data.push([x, x * x, y]); // Note that the last column should be y the output
 		}
 
@@ -39,7 +39,7 @@
   ];
   var items_predicted = [];
 		for(var x = 1.0; x < 100.0; x += 0.5) {
-		  var actual_y = 3006.0 - 5.0 * x - 2.0 * x * x + (Math.random()-0.5) * x * 100;
+		  var actual_y = 1300.0 - 25.0 * x - 2.0 * x * x + (Math.random()-0.5) * 1000;
 		  var predicted_y = regression.transform([x, x * x]);
 		  items.push({x: x, y: actual_y});
 		  items_predicted.push({x: x, y: predicted_y});
